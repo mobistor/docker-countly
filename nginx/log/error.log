@@ -1,0 +1,13 @@
+2019/06/11 02:18:47 [notice] 37#37: signal process started
+2019/06/11 02:18:49 [notice] 62#62: signal process started
+2019/06/11 02:18:53 [notice] 85#85: signal process started
+2019/06/11 02:18:56 [notice] 108#108: signal process started
+2019/06/11 02:21:11 [notice] 56#56: signal process started
+2019/06/11 02:21:12 [notice] 79#79: signal process started
+2019/06/11 02:21:39 [notice] 57#57: signal process started
+2019/06/11 02:21:40 [notice] 80#80: signal process started
+2019/06/11 02:28:43 [notice] 57#57: signal process started
+2019/06/11 02:28:44 [notice] 81#81: signal process started
+2019/06/12 09:39:09 [crit] 82#82: *1516 SSL_do_handshake() failed (SSL: error:1417D18C:SSL routines:tls_process_client_hello:version too low) while SSL handshaking, client: 198.108.66.48, server: 0.0.0.0:443
+2019/06/13 01:54:21 [crit] 82#82: *1647 SSL_do_handshake() failed (SSL: error:1417D18C:SSL routines:tls_process_client_hello:version too low) while SSL handshaking, client: 216.218.206.69, server: 0.0.0.0:443
+2019/06/13 05:53:15 [crit] 82#82: *1668 SSL_do_handshake() failed (SSL: error:1417D18C:SSL routines:tls_process_client_hello:version too low) while SSL handshaking, client: 89.248.167.131, server: 0.0.0.0:443

@@ -1,0 +1,73 @@
+version: '3.7'
+services:
+  countly:
+    image: countly/countly-server
+    container_name: countly 
+    restart: always
+    volumes:
+      - $PWD/countly/mongodb:/var/lib/mongodb
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      VIRTUAL_HOST: ${COUNTLY_HOST}
+      LETSENCRYPT_HOST: ${COUNTLY_HOST}
+      LETSENCRYPT_EMAIL: ${EMAIL}
+#
+# nginx and ssl frontend
+#
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs:ro
+      - ./nginx/dhparam:/etc/nginx/dhparam
+      - ./nginx/log:/var/log/nginx
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - countly 
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-proxy-le
+    restart: always
+    depends_on:
+      - nginx-proxy
+    volumes:
+      - conf:/etc/nginx/conf.d
+      - certs:/etc/nginx/certs:rw
+      - vhost:/etc/nginx/vhost.d:rw
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      NGINX_PROXY_CONTAINER: nginx-proxy
+
+volumes:
+  conf:
+    driver: local
+    driver_opts:
+      o: bind
+      device: $PWD/nginx/conf
+  certs:
+    driver: local
+    driver_opts:
+      o: bind
+      device: $PWD/nginx/certs
+  vhost:
+    driver: local
+    driver_opts:
+      o: bind
+      device: $PWD/nginx/vhost
+  html:
+    driver: local
+    driver_opts:
+      o: bind
+      device: $PWD/nginx/html
+
